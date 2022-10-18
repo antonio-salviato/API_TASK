@@ -9,23 +9,20 @@ import { CreateTask } from "./controller/tasks/createTask";
 import { GetAllTasksByUser } from "./controller/tasks/getAllTaskByUser";
 import { GetTasksById } from "./controller/tasks/getTaskById";
 
-
 export default (app: Express) => {
+  app.get("/user", new GetAllUser().execute);
 
-app.get("/user", new GetAllUser().execute);
+  app.post("/user", new CreateUser().execute);
 
-app.post("/user", new CreateUser().execute);
+  app.get("/user/:userId", new GetUserByID().execute);
 
-app.get("/user/:id", new GetUserByID().execute);
+  app.delete("/user/:userId", new DeleteUser().execute);
 
-app.delete("/user/:id", new DeleteUser().execute);
+  app.put("/user/:userId", new EditUser().execute);
 
-app.put("/user/:id", new EditUser().execute);
+  app.post("/user/:userId/tasks", new CreateTask().execute);
 
-app.post("/user/:id/tasks", new CreateTask().execute);
+  app.get("/user/:userId/tasks", new GetAllTasksByUser().execute);
 
-app.get("/user/:id/tasks", new GetAllTasksByUser().execute);
-
-app.get("/user/:id/tasks/:taskId", new GetTasksById().execute);
-
-}
+  app.get("/user/:userId/tasks/:id", new GetTasksById().execute);
+};

@@ -9,11 +9,11 @@ export class CreateTask{
     execute(req: Request, res: Response) {
         try {
     
-          const {id} = req.params
+          const {userId} = req.params
        
         const {taskUser} = req.body
 
-       const user = DB.userDb.find((user) => id === user.id)
+       const user = DB.userDb.find((user) => user.id === userId)
        if(!user){
         return res.status(404).json({message:'Usuário não encontrado'})
       }

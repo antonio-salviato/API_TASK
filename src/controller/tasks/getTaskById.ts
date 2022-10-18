@@ -9,15 +9,14 @@ execute(req: Request, res: Response){
 
   const user = DB.userDb.find((user) => userId === user.id);
 
-  const taskFound = user?.taskUser.map(
-    (task => {
-      return task.toReturn();
-  })
-  )
-  
+  const taskFound = user?.taskUser.find(
+    (task => id === task.id))
+    
+    
+    return res.status(200).json(taskFound?.toReturn);
+  }
 
-  return res.status(200).json(taskFound);
 }
-}
+
   
   
