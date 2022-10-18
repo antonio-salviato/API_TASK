@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import {DB} from "../../db/db";
-import { Tasks } from "../../models/tasks";
+
 
 
 export class GetTasksById{
@@ -13,7 +13,7 @@ execute(req: Request, res: Response){
     (task => id === task.id))
     
     
-    return res.status(200).json(taskFound?.toReturn);
+    return res.status(200).json(taskFound);
   }
 
 }

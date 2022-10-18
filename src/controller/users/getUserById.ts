@@ -6,8 +6,8 @@ import {DB} from "../../db/db";
 export class GetUserByID{
 execute(req: Request, res: Response){
     try {
-      const {id} = req.params
-      const user = DB.userDb.find(user => user.id === id )
+      const {userId} = req.params
+      const user = DB.userDb.find(user => user.id === userId )
       if(!user){
         return res.status(404).json({message:'Usuário não encontrado'})
       }

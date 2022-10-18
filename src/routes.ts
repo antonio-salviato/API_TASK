@@ -1,6 +1,5 @@
 import { Express } from "express";
 import { DeleteUser } from "./controller/users/deleteUser";
-
 import { GetAllUser } from "./controller/users/getAllUser";
 import { EditUser } from "./controller/users/updateUser";
 import { CreateUser } from "./controller/users/createUser";
