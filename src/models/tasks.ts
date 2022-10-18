@@ -9,6 +9,9 @@ export class Tasks {
   get task() {
     return this._task;
   }
+  set task(task){
+    this._task = task
+  }
   private _completed: boolean;
   get completed() {
     return this._completed;

@@ -4,9 +4,9 @@ import { DB } from "../../db/db";
 export class EditUser {
   execute(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const { userId } = req.params;
       const { name, email, password } = req.body;
-      const user = DB.userDb.find((user) => user.id === id);
+      const user = DB.userDb.find((user) => user.id === userId);
 
       if (!user) {
         return res.status(404).json({ message: "Usuário não encontrado" });
@@ -22,7 +22,7 @@ export class EditUser {
         user.password = password;
       }
      
-      const index = DB.userDb.findIndex((user) => user.id === id);
+      const index = DB.userDb.findIndex((user) => user.id === userId);
       DB.userDb[index] = user;
       return res.status(200).json({ data: user });
     } catch (error: any) {
