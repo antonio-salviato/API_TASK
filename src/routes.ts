@@ -25,7 +25,7 @@ export default (app: Express) => {
 
   app.get("/user/:userId", new GetUserByID().execute);
 
-  app.delete("/user/:userId", new ValidateCreatedUserMiddleware().execute ,new DeleteUser().execute);
+  app.delete("/user/:userId", new LoggedUserMiddleware().execute ,new DeleteUser().execute);
 
   app.put("/user/:userId", new EditUser().execute);
 
