@@ -21,7 +21,7 @@ export class CreateTask{
        
        user.creatTask(newTask)
         
-        res.json(taskUser)
+        res.json(newTask)
         
     } catch (error:any) {res.status(500).send(error.message)
         

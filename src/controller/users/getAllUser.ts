@@ -9,7 +9,7 @@ execute(req: Request, res: Response){
     const { name, email } = req.query;
 
     let userFounded = DB.userDb.map(user => {
-        return user.toString();
+        return user.toJSON();
     });
 
     if(userFounded.length === 0)

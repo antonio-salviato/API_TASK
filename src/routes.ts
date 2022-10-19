@@ -8,6 +8,7 @@ import { CreateTask } from "./controller/tasks/createTask";
 import { GetAllTasksByUser } from "./controller/tasks/getAllTaskByUser";
 import { GetTasksById } from "./controller/tasks/getTaskById";
 import { updateTask } from "./controller/tasks/updateTask";
+import { ChangeTaskStatus } from "./controller/tasks/ChangeTaskStatus";
 
 
 export default (app: Express) => {
@@ -27,5 +28,7 @@ export default (app: Express) => {
   
   app.get("/user/:userId/tasks/:id", new GetTasksById().execute);
   
-  app.put("/user/:userId", new updateTask().execute);
+  app.put("/user/:userId/tasks/:id", new updateTask().execute);
+
+  app.put("/user/:userId/tasks/:id/status", new ChangeTaskStatus().execute);
 };

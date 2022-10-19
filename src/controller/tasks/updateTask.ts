@@ -9,9 +9,8 @@ export class updateTask {
     const user = DB.userDb.find((user) => userId === user.id);
 
     const taskFound = user?.taskUser.find((t) => id === t.id);
-    if (task) taskFound!.task = task;
-
-    // taskFound?.updateTask(task);
+    
+    taskFound?.updateTask(task);
 
     return response.status(200).json(taskFound);
   }

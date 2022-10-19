@@ -10,8 +10,7 @@ execute(req: Request, res: Response){
   const user = DB.userDb.find((user) => userId === user.id);
 
   const taskFound = user?.taskUser.find(
-    (task => id === task.id))
-    
+    (task => id === task.id))?.toReturn()
     
     return res.status(200).json(taskFound);
   }

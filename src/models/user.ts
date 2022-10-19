@@ -47,7 +47,7 @@ export class User {
     this._taskUser = [];
   }
 
-  toString() {
+  toJSON() {
     return {
       id: this._id,
       name:this._name,
@@ -56,7 +56,7 @@ export class User {
     };
   }
   
-  toJson() {
+  toReturn() {
     return {
       id: this._id,
       name:this._name,
@@ -72,23 +72,8 @@ export class User {
     this._taskUser.push(newTaskUser);
   }
 
-  taskGroupUpdate(taskGroup: Tasks[]) {
-    this._taskUser = [...taskGroup];
-  }
-  // deleteTask(task: Task) {
-  //   // "" -> false
-  //   // undefined -> false
-  //   // null -> false
-  //   const index = this._taskUser.findIndex(
-  //     (t) => t.id === task.id
-  //     );
-      
-  //     if (index < 0) {
-  //       throw new Error("Tarefa não encontrada");
-  //     }
-      
-  //     this._taskUser.splice(index, 1);
-  //   }
+
+
   }
   
 

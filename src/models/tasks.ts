@@ -23,16 +23,13 @@ export class Tasks {
     this._completed = false;
   }
 
-  updateStatusTask(task: string, completed: boolean) {
-    this._task = task;
-    this._completed = completed;
-  }
-  
+
   updateTask(task: string) {
     this._task = task;
   }
   updateStatus( completed: boolean) {
     this._completed = completed;
+    
   }
   
   toReturn() {
