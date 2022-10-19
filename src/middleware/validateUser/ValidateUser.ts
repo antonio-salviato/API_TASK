@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-export class ValidateDataUser {
+export class ValidateDataUserMiddleware {
   execute(req: Request, res: Response, next: NextFunction) {
     const { email, password } = req.body;
 
