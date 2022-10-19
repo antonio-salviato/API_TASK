@@ -1,4 +1,8 @@
-.env
+
 /dist
 node_modules
 package-lock.json
+
+
+# Secret file
+.env
