@@ -8,6 +8,7 @@ export class ValidateEmailMiddleware {
 
     const { email } = req.body;
     const user = DB.userDb.find((user: User) => user.email === email);
+    
 
     if (user) {
       return res.status(400).json({ message: "E-mail já foi usado!" });

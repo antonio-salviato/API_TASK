@@ -9,26 +9,35 @@ import { GetAllTasksByUser } from "./controller/tasks/getAllTaskByUser";
 import { GetTasksById } from "./controller/tasks/getTaskById";
 import { updateTask } from "./controller/tasks/updateTask";
 import { ChangeTaskStatus } from "./controller/tasks/ChangeTaskStatus";
+import { ValidateCreatedUserMiddleware } from "./middleware/validateUser/ValidateUser";
+import { ValidateEmailMiddleware } from "./middleware/validateUser/ValidateEmail";
+import { LoggedUserMiddleware } from "./middleware/validateUser/LoggedUser";
+
 
 
 export default (app: Express) => {
   app.get("/user", new GetAllUser().execute);
 
-  app.post("/user", new CreateUser().execute);
+  app.post("/user", 
+  new ValidateCreatedUserMiddleware().execute,
+  new ValidateEmailMiddleware().execute, 
+  new CreateUser().execute);
 
   app.get("/user/:userId", new GetUserByID().execute);
 
-  app.delete("/user/:userId", new DeleteUser().execute);
+  app.delete("/user/:userId", new ValidateCreatedUserMiddleware().execute ,new DeleteUser().execute);
 
   app.put("/user/:userId", new EditUser().execute);
 
-  app.post("/user/:userId/tasks", new CreateTask().execute);
+  app.post("/user/:userId/tasks", 
+  new LoggedUserMiddleware().execute,
+  new CreateTask().execute);
   
-  app.get("/user/:userId/tasks", new GetAllTasksByUser().execute);
+  app.get("/user/:userId/tasks", new LoggedUserMiddleware().execute, new GetAllTasksByUser().execute);
   
-  app.get("/user/:userId/tasks/:id", new GetTasksById().execute);
+  app.get("/user/:userId/tasks/:id", new LoggedUserMiddleware().execute, new GetTasksById().execute);
   
-  app.put("/user/:userId/tasks/:id", new updateTask().execute);
+  app.put("/user/:userId/tasks/:id", new LoggedUserMiddleware().execute, new updateTask().execute);
 
-  app.put("/user/:userId/tasks/:id/status", new ChangeTaskStatus().execute);
+  app.put("/user/:userId/tasks/:id/status", new LoggedUserMiddleware().execute, new ChangeTaskStatus().execute);
 };

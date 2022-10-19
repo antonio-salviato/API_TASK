@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 
-export class ValidateDataUserMiddleware {
+export class ValidateCreatedUserMiddleware {
   execute(req: Request, res: Response, next: NextFunction) {
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
 
-    if (!email || !password) {
+    if (!name || !email || !password) {
       return res
         .status(400)
-        .json({ message: "E-mail e/ou senha obrigaórios." });
+        .json({ message: "Todos os campos são obrigatórios." });
     }
     return next();
   }
