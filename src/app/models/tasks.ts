@@ -23,7 +23,12 @@ export class Tasks {
     this._completed = false;
   }
 
-
+  static createTask(id: string, task: string, completed: boolean): Tasks {
+    const TaskCreated = new Tasks(task);
+    TaskCreated._completed;
+    TaskCreated._id = id;
+    return TaskCreated;
+  }
   updateTask(task: string) {
     this._task = task;
   }

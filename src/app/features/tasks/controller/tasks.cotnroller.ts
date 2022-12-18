@@ -1,23 +1,40 @@
 import { Request, Response } from "express";
 
-export class TaskController {
-  execute(req: Request, res: Response) {
+export class TasksController {
+  async getAllTaskByUser(req: Request, res: Response){
+
+    try{
+      const { userId } = req.params;
+      const { task, completed } = req.query
+        
+      const tasksRepository = new TasksRepository();
+    const TasksByUser = await redisHelper.client.get(`messages:${userId}`);
+    let tasks = TasksByUser.map(t => t.Json())
+  
+    return res.status(200).json(tasks)
+  
+  
+  }catch (error:any) {res.status(500).send(error.message)
+          
+      }
+  }
+  
+  async CreateTask(req: Request, res: Response) {
     try {
       const { userId } = req.params;
 
       const { taskUser } = req.body;
 
-      const user = DB.userDb.find((user) => user.id === userId);
-      if (!user) {
-        return res.status(404).json({ message: "Usuário não encontrado" });
-      }
-      const newTask = new Tasks(taskUser);
+      const tasksRepository = new TasksRepository();
+    
+      const usecase = new CreateTask();
 
-      user.creatTask(newTask);
+      const newTask = await usecase.execute({ userId, taskUser });
 
-      res.json(newTask);
+      return res.status(200).json(newTask);
     } catch (error: any) {
       res.status(500).send(error.message);
     }
   }
 }
+

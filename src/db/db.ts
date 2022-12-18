@@ -1,6 +1,5 @@
-import { User } from "../models/user";
+import { User } from "../app/models/user";
 
-
-export class DB{
-    static userDb: User[] = []
+export class DB {
+  static userDb: User[] = [];
 }
