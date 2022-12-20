@@ -1,60 +1,51 @@
 import { TaskEntity } from "../../../shared/entities/task.entity";
-import { pgHelper } from "../../../shared/database/pg-helper";
 import { Tasks } from "../../../models/tasks";
-import { FindOperator, ILike } from "typeorm";
 import { UserEntity } from "../../../shared/entities/user.entity";
+import { dataSource } from "../../../../main/database/typeorm";
+import { userInfo } from "os";
 
 
 export class TaskRepository {
-  async getTaskByUser(
-    userId: string,
-    task?: string,
-    completed?: string
-  ): Promise<Tasks[]> {
-    const manager = pgHelper.client.manager;
+ async getAll(userId: string): Promise<Tasks[]> {
+          const manager = dataSource.manager;
+  
+          const tasksEntities = await manager.find(TaskEntity, {
+              where: { userId },
+          });
+          
+          return tasksEntities.map(row => {
+              return Tasks.createTask(
+                  row.id,
+                  row.task,
+                  row.completed,
+              
+              )
+          });
+      }
+  
+    async getTasksById(id:string){
+      const manager = dataSource.manager;
 
-    let whereConditions: {
-      userId: string;
-      task?: FindOperator<string>;
-      completed?: boolean;
-    } = { userId };
+      const taskEntity = await manager.findOne(TaskEntity, {
+          where: { id }
+      });
 
-    if (completed) {
-      whereConditions = {
-        ...whereConditions,
-        completed: completed === "true" ? true : false,
-      };
-    }
+      if(!taskEntity) return null;
+      
+      return Tasks.createTask(
+          taskEntity.id,
+          taskEntity.task,
+          taskEntity.completed,
+          
 
-    if (task) {
-      whereConditions = {
-        ...whereConditions,
-        task: ILike(`%${task}%`),
-      };
-    }
-    const taskEntity = await manager.find(TaskEntity, {
-      where: whereConditions,
-    });
-
-    return taskEntity.map((e) => Tasks.createTask(e.id, e.task, e.completed));
+      )
   }
 
-    async getTasksById(id:string){
-        const manager = pgHelper.client.manager;
-       
-        const taskEntity = await manager.findOne(TaskEntity, {
-            where: { id: id },    
-        }) as TaskEntity;
-
-        if (!taskEntity) throw new Error("Tarefa não encontrada");
-        return taskEntity;
-      };
-
     async createTask(userId: string, task: Tasks) {
-        const manager = pgHelper.client.manager;
+        const manager = dataSource.manager;
     
         const userTaskEntity = await manager.findOne(UserEntity, {
-          where: { id: userId },
+          where: { id:userId },
         });
     
         const taskEntity = manager.create(TaskEntity, {
@@ -68,21 +59,26 @@ export class TaskRepository {
       };
 
    async deleteTaks(id: string): Promise<void>{
-        const manager = pgHelper.client.manager;
+        const manager = dataSource.manager;
 
         await manager.delete(TaskEntity, {id: id});
     }
     
-   async updateTask(id: string, task: string, completed: boolean) {
-    const manager = pgHelper.client.manager;
-    await manager.update(TaskEntity, {id: id},
-        {
-            task, completed 
+    async taskUpdate(task: Tasks): Promise<void> {
+        const manager = dataSource.manager;
+        
+        const taskEntity = manager.create(TaskEntity, {
+            id: task.id,
+            task: task.task,
+            completed: task.completed,
+              
         });
-  }
+        
+        await manager.save(taskEntity);
+    }
   
    async completedStatus(id: string, completed: boolean): Promise<void>{
-    const manager = pgHelper.client.manager;
+    const manager = dataSource.manager;
     await manager.update(TaskEntity, {id: id},
     {   
         completed

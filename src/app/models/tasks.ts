@@ -24,10 +24,10 @@ export class Tasks {
   }
 
   static createTask(id: string, task: string, completed: boolean): Tasks {
-    const TaskCreated = new Tasks(task);
-    TaskCreated._completed;
-    TaskCreated._id = id;
-    return TaskCreated;
+    const taskCreated = new Tasks(task);
+    taskCreated._completed;
+    taskCreated._id = id;
+    return taskCreated;
   }
   updateTask(task: string) {
     this._task = task;
@@ -37,7 +37,7 @@ export class Tasks {
     
   }
   
-  toReturn() {
+  toJson() {
     return {
       id: this._id,
       task:this._task,
